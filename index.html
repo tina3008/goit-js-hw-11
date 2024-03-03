@@ -7,10 +7,12 @@
     <title>HW11</title>
     
     <script type="module" crossorigin src="/goit-js-hw-11/commonHelpers.js"></script>
-    <link rel="stylesheet" href="/goit-js-hw-11/assets/index-10c40100.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-bee2f3af.js">
+    <link rel="stylesheet" href="/goit-js-hw-11/assets/vendor-cf6910df.css">
+    <link rel="stylesheet" href="/goit-js-hw-11/assets/index-fd455a78.css">
   </head>
   <body>
-    <header class="header">
+    <!-- <header class="header">
   <nav class="nav">
     <ul class="nav-list">
       <li class="nav-item">
@@ -23,13 +25,22 @@
     </ul>
   </nav>
 </header>
-
+ -->
 
     <section>
-    
       <!-- Path to images as from index.html file -->
       <!-- <img src="./img/javascript.svg" alt="" /> -->
     </section>
+
+
+<form autocomplete="off">
+<input type="text" placeholder="Search images...">
+<button type="submit" id="search">Search</button>
+</form>
+
+<ul class="img-list">
+  
+</ul>
 
     <!-- Loads the specified .html file -->
     <section class="vite-promo">
@@ -79,8 +90,9 @@
   </div>
 </section>
 
-
-
+    
+    
+    
     <!-- <script type="module" src="./main.js"></script> -->
   </body>
 </html>
