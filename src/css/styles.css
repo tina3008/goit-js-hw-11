@@ -23,3 +23,30 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+form{
+  display: flex;
+justify-content: center;
+gap: 10px;
+margin-top: 40px;
+}
+
+input{
+  width: 371px;
+  height: 40px;
+  border-radius: 4px;
+  font-size: 16px;
+font-weight: 400;
+color: #808080;
+border: 1px solid #808080;
+
+}
+
+button{
+Padding:8px 16px 8px 16px;
+border-radius: 8px;
+background-color: #4E75FF;
+color: #FFFFFF;
+font-size: 16px;
+font-weight: 500;
+}
