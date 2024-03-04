@@ -9,7 +9,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const inputfield = document.querySelector('input');
 const inputBtn = document.querySelector('button');
 const fillForm = document.querySelector('form');
-const imgPlase = document.querySelector('img-list');
+const setGallery = document.querySelector('gallery');
 let wishImgs;
 
 // Begin ++++++++++++++++
@@ -20,20 +20,82 @@ inputBtn.addEventListener('click', event => {
 
   // control coreect fill input
 
-  if (wishImgs.length < 1) {
+  if (!wishImgs.length) {
     iziToast.error({
       color: 'red',
       position: 'topRight',
-      message: `❌ Sorry, there are no images matching your search query. Please try again!`,
+      message: `❌ Please fill in the field for search query.`,
     });
+  }
+
+  // ++++++++++ URL
+
+  const searchParams = new URLSearchParams({
+    key: '22926721-5d20aa08498ffd1ff2f906542',
+    // key: '42609290-856768105ab9e79485c69bf61',
+    q: wishImgs,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: 'true',
+  });
+
+  const url = `https://pixabay.com/api/?${searchParams}`;
+
+  // fetch===================
+
+  function fetchImg() {
+    return fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.json();
+    });
+  }
+
+  function renderImgs(images) {
+    const imgGallery = images
+      .map(
+        image => `<a href="${image.largeImageURL}">
+    <img src="${image.webformatURL}" 
+    alt="image.tags">
+    <ul class="image-descript">
+  <li>
+    <h3>likes</h3>
+    <p>${image.likes}</p>
+  </li>
+  <li>
+    <h3>views</h3>
+    <p>${views.likes}</p>
+  </li>
+  <li>
+    <h3>comments</h3>
+    <p>${comments.likes}</p>
+  </li>
+  <li>
+    <h3>downloads</h3>
+    <p>${downloads.likes}</p>
+  </li>
+    </ul>
+  </a>`
+      )
+      .join('');
+
+    setGallery.insertAdjacentHTML('beforeend', imgGallery);
+    setGallery.insertAdjacentHTML('beforeend', "imgGallery");
+
+    const lightbox = new SimpleLightbox('.gallery', {
+      captionsData: 'alt',
+    });
+    lightbox.on('show.simplelightbox', function () {});
+    lightbox.refresh();
   }
 
   // request
 
   fetchImg()
-    .then(imgs => {
-      renderImgs(imgs);
-      console.log(wishImgs);
+    .then(images => {
+      console.log(images);
+      renderImgs(images);
     })
     .catch(error => {
       iziToast.error({
@@ -43,40 +105,3 @@ inputBtn.addEventListener('click', event => {
       });
     });
 });
-
-// ++++++++++ URL
-
-const searchParams = new URLSearchParams({
-  key:"22926721-5d20aa08498ffd1ff2f906542",
-  // key: '42609290-856768105ab9e79485c69bf61',
-  q: wishImgs, 
-  image_type: 'photo',
-  orientation: 'horizontal',
-  safesearch: 'true',
-});
-
-const url = `https://pixabay.com/api/?${searchParams}`;
-
-console.log(url);
-console.log(wishImgs);
-
-function fetchImg() {
-  return fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
-}
-
-function renderImgs(imgs) {
-  const markup = imgs
-    .map(img => {
-      return `<li class="gallery-img"> 
-      <img class="gallery-image"; src= "${img.preview}"     
-      alt="${img.description}">
-      </li>`;
-    })
-    .join('');
-  imgList.insertAdjacentHTML('beforeend', markup);
-}
