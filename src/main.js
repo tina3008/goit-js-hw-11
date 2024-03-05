@@ -55,6 +55,8 @@ inputBtn.addEventListener('click', event => {
   // +++++++++++++ imge gallery
 
   function renderImgs(images) {
+    console.log(images);
+
     const imgGallery = images
       .map(
         image => `<a href="${image.largeImageURL}">     
@@ -96,7 +98,6 @@ inputBtn.addEventListener('click', event => {
 
   fetchImg()
     .then(images => {
-      console.log(images);
       renderImgs(images);
     })
     .catch(error => {
