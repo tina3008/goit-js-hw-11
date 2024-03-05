@@ -1,24 +1,26 @@
-import{i as a,S as u}from"./assets/vendor-5b791d57.js";(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))i(t);new MutationObserver(t=>{for(const e of t)if(e.type==="childList")for(const o of e.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function n(t){const e={};return t.integrity&&(e.integrity=t.integrity),t.referrerPolicy&&(e.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?e.credentials="include":t.crossOrigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function i(t){if(t.ep)return;t.ep=!0;const e=n(t);fetch(t.href,e)}})();const f=document.querySelector("input"),d=document.querySelector("button");document.querySelector("form");const h=document.querySelector("ul.gallery");let l;d.addEventListener("click",c=>{c.preventDefault(),l=f.value.trim(),l.length||a.error({color:"red",position:"topRight",message:"❌ Please fill in the field for search query."});const n=`https://pixabay.com/api/?${new URLSearchParams({key:"22926721-5d20aa08498ffd1ff2f906542",q:l,image_type:"photo",orientation:"horizontal",safesearch:"true"})}`;function i(){return fetch(n).then(e=>{if(!e.ok)throw new Error(e.status);return e.json()})}function t(e){console.log(e);const o=e.map(r=>`<a href="${r.largeImageURL}">     
-    <img src="${r.webformatURL}" 
-    alt="${r.tags}">
+import{i as a,S as f}from"./assets/vendor-5b791d57.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const n of t.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&s(n)}).observe(document,{childList:!0,subtree:!0});function i(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function s(e){if(e.ep)return;e.ep=!0;const t=i(e);fetch(e.href,t)}})();function h(r){c.innerHTML="";const o=r.hits;o.length||a.error({color:"red",message:"❌ Sorry, there are no images matching your search query. Please try again!",position:"topRight"});const i=o.map(e=>`<li class="img-blok">
+        <a href="${e.largeImageURL}">     
+    <img  src="${e.webformatURL}"
+    data-source="${e.largeImageURL}"
+    alt="${e.tags}">
    
     <ul class="image-descript">
   <li>
     <h3>likes</h3>
-    <p>${r.likes}</p>
+    <p>${e.likes}</p>
   </li>
   <li>
     <h3>views</h3>
-    <p>${r.views}</p>
+    <p>${e.views}</p>
   </li>
   <li>
     <h3>comments</h3>
-    <p>${r.comments}</p>
+    <p>${e.comments}</p>
   </li>
   <li>
     <h3>downloads</h3>
-    <p>${r.downloads}</p>
+    <p>${e.downloads}</p>
   </li>
     </ul>
-  </a>`).join("");h.insertAdjacentHTML("beforeend",o),new u(".gallery a",{captionsData:"alt"}).refresh()}i().then(e=>{t(e)}).catch(e=>{a.error({color:"red",position:"topRight",message:"❌ Sorry, there are no images matching your search query. Please try again!"})})});
+  </a></li>`).join("");c.insertAdjacentHTML("beforeend",i),new f(".gallery a",{captionsData:"alt"}).refresh()}function d(){return fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})}const c=document.querySelector("ul.gallery");let u;const m=document.querySelector("input"),p=document.querySelector("button");document.querySelector("form");let l;p.addEventListener("click",r=>{r.preventDefault(),l=m.value.trim(),l.length||(a.error({color:"yellow",message:" Please fill in the field for search query.",position:"topRight"}),c.innerHTML=""),u=`https://pixabay.com/api/?${new URLSearchParams({key:"22926721-5d20aa08498ffd1ff2f906542",q:l,image_type:"photo",orientation:"horizontal",safesearch:"true"})}`,d().then(i=>{h(i)}).catch(i=>{a.error({color:"red",message:"❌ Sorry, was mistake. Please try again!",position:"topRight"})})});
 //# sourceMappingURL=commonHelpers.js.map
