@@ -9,7 +9,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const inputfield = document.querySelector('input');
 const inputBtn = document.querySelector('button');
 const fillForm = document.querySelector('form');
-const setGallery = document.querySelector('gallery');
+const setGallery = document.querySelector('ul.gallery');
 let wishImgs;
 
 // Begin ++++++++++++++++
@@ -52,12 +52,15 @@ inputBtn.addEventListener('click', event => {
     });
   }
 
+  // +++++++++++++ imge gallery
+
   function renderImgs(images) {
     const imgGallery = images
       .map(
-        image => `<a href="${image.largeImageURL}">
+        image => `<a href="${image.largeImageURL}">     
     <img src="${image.webformatURL}" 
-    alt="image.tags">
+    alt="${image.tags}">
+   
     <ul class="image-descript">
   <li>
     <h3>likes</h3>
@@ -65,15 +68,15 @@ inputBtn.addEventListener('click', event => {
   </li>
   <li>
     <h3>views</h3>
-    <p>${views.likes}</p>
+    <p>${image.views}</p>
   </li>
   <li>
     <h3>comments</h3>
-    <p>${comments.likes}</p>
+    <p>${image.comments}</p>
   </li>
   <li>
     <h3>downloads</h3>
-    <p>${downloads.likes}</p>
+    <p>${image.downloads}</p>
   </li>
     </ul>
   </a>`
@@ -81,12 +84,11 @@ inputBtn.addEventListener('click', event => {
       .join('');
 
     setGallery.insertAdjacentHTML('beforeend', imgGallery);
-    setGallery.insertAdjacentHTML('beforeend', "imgGallery");
 
-    const lightbox = new SimpleLightbox('.gallery', {
+    const lightbox = new SimpleLightbox('.gallery a', {
       captionsData: 'alt',
     });
-    lightbox.on('show.simplelightbox', function () {});
+
     lightbox.refresh();
   }
 
