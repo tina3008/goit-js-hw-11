@@ -4,14 +4,18 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import { renderImgs } from './js/render-functions';
+import { fetchImg } from './js/pixabay-api';
+
+export const setGallery = document.querySelector('ul.gallery');
+export let url;
+
 // +++++++++++++++++++
 
 const inputfield = document.querySelector('input');
 const inputBtn = document.querySelector('button');
 const fillForm = document.querySelector('form');
-const setGallery = document.querySelector('ul.gallery');
 let wishImgs;
-
 // Begin ++++++++++++++++
 
 inputBtn.addEventListener('click', event => {
@@ -22,10 +26,11 @@ inputBtn.addEventListener('click', event => {
 
   if (!wishImgs.length) {
     iziToast.error({
-      color: 'red',
-      position: 'topRight',
-      message: `❌ Please fill in the field for search query.`,
+      color: 'yellow',   
+      message: ` Please fill in the field for search query.`,
+       position: 'topRight',
     });
+    setGallery.innerHTML = '';
   }
 
   // ++++++++++ URL
@@ -39,72 +44,24 @@ inputBtn.addEventListener('click', event => {
     safesearch: 'true',
   });
 
-  const url = `https://pixabay.com/api/?${searchParams}`;
+  url = `https://pixabay.com/api/?${searchParams}`;
 
   // fetch===================
 
-  function fetchImg() {
-    return fetch(url).then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    });
-  }
-
   // +++++++++++++ imge gallery
-
-  function renderImgs(images) {
-    console.log(images);
-
-    const imgGallery = images
-      .map(
-        image => `<a href="${image.largeImageURL}">     
-    <img src="${image.webformatURL}" 
-    alt="${image.tags}">
-   
-    <ul class="image-descript">
-  <li>
-    <h3>likes</h3>
-    <p>${image.likes}</p>
-  </li>
-  <li>
-    <h3>views</h3>
-    <p>${image.views}</p>
-  </li>
-  <li>
-    <h3>comments</h3>
-    <p>${image.comments}</p>
-  </li>
-  <li>
-    <h3>downloads</h3>
-    <p>${image.downloads}</p>
-  </li>
-    </ul>
-  </a>`
-      )
-      .join('');
-
-    setGallery.insertAdjacentHTML('beforeend', imgGallery);
-
-    const lightbox = new SimpleLightbox('.gallery a', {
-      captionsData: 'alt',
-    });
-
-    lightbox.refresh();
-  }
 
   // request
 
   fetchImg()
     .then(images => {
+      
       renderImgs(images);
     })
     .catch(error => {
       iziToast.error({
-        color: 'red',
+        color: 'red',       
+        message: `❌ Sorry, was mistake. Please try again!`,
         position: 'topRight',
-        message: `❌ Sorry, there are no images matching your search query. Please try again!`,
       });
     });
 });
