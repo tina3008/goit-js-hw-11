@@ -5,7 +5,7 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // import { AtomSpinner } from 'epic-spinners';
-import { OrbitSpinner } from 'epic-spinners'
+import { OrbitSpinner } from 'epic-spinners';
 
 import { renderImgs } from './js/render-functions';
 import { fetchImg } from './js/pixabay-api';
@@ -25,40 +25,22 @@ const fillForm = document.querySelector('form');
 let wishImgs;
 const preloader = document.querySelector('.preloader');
 
-// loader==============
-// window.onload = function () {
-//   document.body.classList.add('loaded_hiding');
-//   window.setTimeout(function () {
-//     document.body.classList.add('loaded');
-//     document.body.classList.remove('loaded_hiding');
-//   }, 500);
-// }
-
-window.addEventListener('load', function () {
-  let preloader = document.querySelector('.preloader');
-  preloader.style.display = 'none';
-});
-
 // Begin ++++++++++++++++
 inputBtn.addEventListener('click', event => {
   event.preventDefault();
 
   wishImgs = inputfield.value.trim();
 
-
- 
-  // control coreect fill input
+  // control corect fill input
 
   if (!wishImgs.length) {
     iziToast.error({
-      color: 'yellow',   
+      color: 'yellow',
       message: ` Please fill in the field for search query.`,
-       position: 'topRight',
+      position: 'topRight',
     });
     setGallery.innerHTML = '';
   }
-
-
 
   // ++++++++++ URL
 
@@ -73,25 +55,23 @@ inputBtn.addEventListener('click', event => {
 
   url = `https://pixabay.com/api/?${searchParams}`;
 
+  // loader begin==============
+  window.onload = function () {
+    document.body.classList.add('loaded');
 
-  // request
-
-  fetchImg()
-    .then(images => {
-       
-    //   window.onload = function () {
-    //     document.body.classList.add('loaded');
-    //     document.body.classList.remove('loaded_hiding');
-    //  }
-
-      
-      renderImgs(images);
-    })
-    .catch(error => {
-      iziToast.error({
-        color: 'red',       
-        message: `❌ Sorry, was mistake. Please try again!`,
-        position: 'topRight',
+    // request
+    fetchImg()
+      .then(images => {
+        renderImgs(images);
+      })
+      .catch(error => {
+        iziToast.error({
+          color: 'red',
+          message: `❌ Sorry, was mistake. Please try again!`,
+          position: 'topRight',
+        });
       });
-    });
+    // loader end==============
+    document.body.classList.remove('loaded_hiding');
+  };
 });
