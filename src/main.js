@@ -26,13 +26,18 @@ let wishImgs;
 const preloader = document.querySelector('.preloader');
 
 // loader==============
-window.onload = function () {
-  document.body.classList.add('loaded_hiding');
-  window.setTimeout(function () {
-    document.body.classList.add('loaded');
-    document.body.classList.remove('loaded_hiding');
-  }, 500);
-}
+// window.onload = function () {
+//   document.body.classList.add('loaded_hiding');
+//   window.setTimeout(function () {
+//     document.body.classList.add('loaded');
+//     document.body.classList.remove('loaded_hiding');
+//   }, 500);
+// }
+
+window.addEventListener('load', function () {
+  let preloader = document.querySelector('.preloader');
+  preloader.style.display = 'none';
+});
 
 // Begin ++++++++++++++++
 inputBtn.addEventListener('click', event => {
@@ -68,16 +73,16 @@ inputBtn.addEventListener('click', event => {
 
   url = `https://pixabay.com/api/?${searchParams}`;
 
-  // fetch===================
-
-  // +++++++++++++ imge gallery
 
   // request
 
   fetchImg()
     .then(images => {
-
-   
+       
+    //   window.onload = function () {
+    //     document.body.classList.add('loaded');
+    //     document.body.classList.remove('loaded_hiding');
+    //  }
 
       
       renderImgs(images);

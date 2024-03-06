@@ -3,8 +3,9 @@ import { setGallery } from '../main';
 
 
 
-export function fetchImg() {
-  
+export function fetchImg() {  
+
+ 
 //   setGallery.innerHTML = (`<div class="loader"></div>`).json();
 
   return fetch(url).then(response => {
