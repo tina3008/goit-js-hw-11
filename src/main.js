@@ -4,11 +4,18 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+// import { AtomSpinner } from 'epic-spinners';
+import { OrbitSpinner } from 'epic-spinners'
+
 import { renderImgs } from './js/render-functions';
 import { fetchImg } from './js/pixabay-api';
 
 export const setGallery = document.querySelector('ul.gallery');
 export let url;
+
+// export default {components: { AtomSpinner,},}
+
+//export default {components: { IntersectingCirclesSpinner ,},}
 
 // +++++++++++++++++++
 
@@ -16,12 +23,25 @@ const inputfield = document.querySelector('input');
 const inputBtn = document.querySelector('button');
 const fillForm = document.querySelector('form');
 let wishImgs;
-// Begin ++++++++++++++++
+const preloader = document.querySelector('.preloader');
 
+// loader==============
+window.onload = function () {
+  document.body.classList.add('loaded_hiding');
+  window.setTimeout(function () {
+    document.body.classList.add('loaded');
+    document.body.classList.remove('loaded_hiding');
+  }, 500);
+}
+
+// Begin ++++++++++++++++
 inputBtn.addEventListener('click', event => {
   event.preventDefault();
+
   wishImgs = inputfield.value.trim();
 
+
+ 
   // control coreect fill input
 
   if (!wishImgs.length) {
@@ -32,6 +52,8 @@ inputBtn.addEventListener('click', event => {
     });
     setGallery.innerHTML = '';
   }
+
+
 
   // ++++++++++ URL
 
@@ -54,6 +76,9 @@ inputBtn.addEventListener('click', event => {
 
   fetchImg()
     .then(images => {
+
+   
+
       
       renderImgs(images);
     })
