@@ -6,8 +6,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { setGallery } from '../main';
 
-
-
 export function renderImgs(images) {
   setGallery.innerHTML = '';
 
@@ -16,12 +14,11 @@ export function renderImgs(images) {
   if (!imgset.length) {
     iziToast.error({
       color: 'red',
-     
+
       message: `❌ Sorry, there are no images matching your search query. Please try again!`,
       position: 'topRight',
     });
   }
-
 
   const imgGallery = imgset
     .map(

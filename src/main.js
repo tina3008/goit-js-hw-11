@@ -13,10 +13,6 @@ import { fetchImg } from './js/pixabay-api';
 export const setGallery = document.querySelector('ul.gallery');
 export let url;
 
-// export default {components: { AtomSpinner,},}
-
-//export default {components: { IntersectingCirclesSpinner ,},}
-
 // +++++++++++++++++++
 
 const inputfield = document.querySelector('input');
@@ -30,9 +26,21 @@ const preloader = document.querySelector('.preloader');
 //   document.body.classList.add('loaded');
 //   document.body.classList.remove('loaded_hiding');
 // };
-
+// // ==============================
+// +++++++++++++++++++
+const showLoader = () => {
+  preloader.style.display = 'flex';
+};
+const hideLoader = () => {
+  preloader.style.display = 'none';
+};
+const handleLoad = () => {
+  document.body.classList.add('loaded');
+  document.body.classList.remove('loaded_hiding');
+};
+// +++++++++++++++++++
 // Begin ++++++++++++++++
-inputBtn.addEventListener('click', event => {
+inputBtn.addEventListener('click',  async (event) => {
   event.preventDefault();
 
   wishImgs = inputfield.value.trim();
@@ -45,7 +53,7 @@ inputBtn.addEventListener('click', event => {
       message: ` Please fill in the field for search query.`,
       position: 'topRight',
     });
-    setGallery.innerHTML = '';
+    setGallery.innerHTML = '';   
   }
 
   // ++++++++++ URL
@@ -61,23 +69,44 @@ inputBtn.addEventListener('click', event => {
 
   url = `https://pixabay.com/api/?${searchParams}`;
 
-  // request
-  fetchImg()
-    .then(images => {
-      renderImgs(images);
-    })
-    .catch(error => {
-      iziToast.error({
-        color: 'red',
-        message: `❌ Sorry, was mistake. Please try again!`,
-        position: 'topRight',
-      });
-    });
-    .finally(() => {
-      // loader begin==============
-window.onload = function () {
-  document.body.classList.add('loaded');
-  document.body.classList.remove('loaded_hiding');
-};
-    });
+
+//   // request
+//   showLoader();
+//    await fetchImg()
+//     .then(images => {
+//       renderImgs(images);
+//     })
+//     .catch(error => {
+//       iziToast.error({
+//         color: 'red',
+//         message: `❌ Sorry, was mistake. Please try again!`,
+//         position: 'topRight',
+//       });
+//     });
+//     .finally(() => {
+//       // loader begin==============
+//     hideLoader();
+//     handleLoad();
+//     })    
+// });
+// window.onload = handleLoad;
+
+showLoader();
+try {
+  const images = await fetchImg();
+  renderImgs(images);
+} catch (error) {
+  iziToast.error({
+    color: 'red',
+    message: `:x: Sorry, there was a mistake. Please try again!`,
+    position: 'topRight',
+  });
+} finally {
+  hideLoader();
+  handleLoad();
+}
 });
+
+window.onload = handleLoad;
+// // // ========================================
+
