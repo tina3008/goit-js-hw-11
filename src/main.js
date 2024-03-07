@@ -25,6 +25,12 @@ const fillForm = document.querySelector('form');
 let wishImgs;
 const preloader = document.querySelector('.preloader');
 
+      // loader begin==============
+// window.onload = function () {
+//   document.body.classList.add('loaded');
+//   document.body.classList.remove('loaded_hiding');
+// };
+
 // Begin ++++++++++++++++
 inputBtn.addEventListener('click', event => {
   event.preventDefault();
@@ -55,23 +61,23 @@ inputBtn.addEventListener('click', event => {
 
   url = `https://pixabay.com/api/?${searchParams}`;
 
-  // loader begin==============
-  window.onload = function () {
-    document.body.classList.add('loaded');
-
-    // request
-    fetchImg()
-      .then(images => {
-        renderImgs(images);
-      })
-      .catch(error => {
-        iziToast.error({
-          color: 'red',
-          message: `❌ Sorry, was mistake. Please try again!`,
-          position: 'topRight',
-        });
+  // request
+  fetchImg()
+    .then(images => {
+      renderImgs(images);
+    })
+    .catch(error => {
+      iziToast.error({
+        color: 'red',
+        message: `❌ Sorry, was mistake. Please try again!`,
+        position: 'topRight',
       });
-    // loader end==============
-    document.body.classList.remove('loaded_hiding');
-  };
+    });
+    .finally(() => {
+      // loader begin==============
+window.onload = function () {
+  document.body.classList.add('loaded');
+  document.body.classList.remove('loaded_hiding');
+};
+    });
 });
