@@ -4,30 +4,23 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-// import { AtomSpinner } from 'epic-spinners';
-import { OrbitSpinner } from 'epic-spinners';
-
 import { renderImgs } from './js/render-functions';
 import { fetchImg } from './js/pixabay-api';
 
 export const setGallery = document.querySelector('ul.gallery');
-export let url;
+export let imgset;
+export let searchImgs;
 
 // +++++++++++++++++++
 
 const inputfield = document.querySelector('input');
 const inputBtn = document.querySelector('button');
 const fillForm = document.querySelector('form');
-let wishImgs;
+
 const preloader = document.querySelector('.preloader');
 
-      // loader begin==============
-// window.onload = function () {
-//   document.body.classList.add('loaded');
-//   document.body.classList.remove('loaded_hiding');
-// };
-// // ==============================
-// +++++++++++++++++++
+// loader begin==============
+
 const showLoader = () => {
   preloader.style.display = 'flex';
 };
@@ -38,75 +31,56 @@ const handleLoad = () => {
   document.body.classList.add('loaded');
   document.body.classList.remove('loaded_hiding');
 };
+
+window.onload = handleLoad;
 // +++++++++++++++++++
 // Begin ++++++++++++++++
-inputBtn.addEventListener('click',  async (event) => {
+inputBtn.addEventListener('click', async event => {
   event.preventDefault();
 
-  wishImgs = inputfield.value.trim();
+  searchImgs = inputfield.value.trim();
 
-  // control corect fill input
+  // control correct fill input
 
-  if (!wishImgs.length) {
+  if (!searchImgs.length) {
     iziToast.error({
       color: 'yellow',
       message: ` Please fill in the field for search query.`,
       position: 'topRight',
     });
-    setGallery.innerHTML = '';   
+    setGallery.innerHTML = '';
   }
 
-  // ++++++++++ URL
+  
+  showLoader();
+  try {
 
-  const searchParams = new URLSearchParams({
-    key: '22926721-5d20aa08498ffd1ff2f906542',
-    // key: '42609290-856768105ab9e79485c69bf61',
-    q: wishImgs,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-  });
+    const images = await fetchImg();
 
-  url = `https://pixabay.com/api/?${searchParams}`;
+    imgset = images.hits;
+
+    if (!imgset.length) {
+      iziToast.error({
+        color: 'red',
+  
+        message: `❌ Sorry, there are no images matching your search query. Please try again!`,
+        position: 'topRight',
+      });
+    }
 
 
-//   // request
-//   showLoader();
-//    await fetchImg()
-//     .then(images => {
-//       renderImgs(images);
-//     })
-//     .catch(error => {
-//       iziToast.error({
-//         color: 'red',
-//         message: `❌ Sorry, was mistake. Please try again!`,
-//         position: 'topRight',
-//       });
-//     });
-//     .finally(() => {
-//       // loader begin==============
-//     hideLoader();
-//     handleLoad();
-//     })    
-// });
-// window.onload = handleLoad;
-
-showLoader();
-try {
-  const images = await fetchImg();
-  renderImgs(images);
-} catch (error) {
-  iziToast.error({
-    color: 'red',
-    message: `:x: Sorry, there was a mistake. Please try again!`,
-    position: 'topRight',
-  });
-} finally {
-  hideLoader();
-  handleLoad();
-}
+    renderImgs(images);
+  } catch (error) {
+    iziToast.error({
+      color: 'red',
+      message: `:x: Sorry, there was a mistake. Please try again!`,
+      position: 'topRight',
+    });
+  } finally {
+    hideLoader();
+    handleLoad();
+  }
 });
 
-window.onload = handleLoad;
-// // // ========================================
+
 

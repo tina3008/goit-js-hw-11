@@ -5,20 +5,10 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { setGallery } from '../main';
+import { imgset } from '../main';
 
 export function renderImgs(images) {
   setGallery.innerHTML = '';
-
-  const imgset = images.hits;
-
-  if (!imgset.length) {
-    iziToast.error({
-      color: 'red',
-
-      message: `❌ Sorry, there are no images matching your search query. Please try again!`,
-      position: 'topRight',
-    });
-  }
 
   const imgGallery = imgset
     .map(
